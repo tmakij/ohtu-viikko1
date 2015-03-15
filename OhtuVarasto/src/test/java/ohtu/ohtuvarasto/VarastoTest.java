@@ -1,12 +1,6 @@
 package ohtu.ohtuvarasto;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -69,10 +63,56 @@ public class VarastoTest {
     public void konstr() {
         varasto = new Varasto(-1);
         varasto = new Varasto(0);
-        varasto = new Varasto(1,1);
-        varasto = new Varasto(1,2);
-        varasto = new Varasto(-1,2);
-        varasto = new Varasto(-1,-1);
+        varasto = new Varasto(1, 1);
+        varasto = new Varasto(1, 2);
+        varasto = new Varasto(-1, 2);
+        varasto = new Varasto(-1, -1);
         varasto.toString();
+    }
+
+    @Test
+    public void negLisaysEiVahennaSaldoa() {
+        final double result = 5D;
+        varasto.lisaaVarastoon(result);
+        varasto.lisaaVarastoon(-1D);
+        assertEquals(result, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaysEiYlitaSaldoa() {
+        final double result = 10D;
+        varasto.lisaaVarastoon(result);
+        varasto.lisaaVarastoon(1D);
+        assertEquals(result, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void yliLisaysEiYlitaSaldoa() {
+        final double result = 10D;
+        varasto.lisaaVarastoon(result + 1D);
+        assertEquals(result, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void negVientiEiMuutaSaldoa() {
+        final double result = 10D;
+        varasto.lisaaVarastoon(result);
+        varasto.otaVarastosta(-1D);
+        assertEquals(result, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void negVientiPalauttaaNollan() {
+        final double result = 0D;
+        assertEquals(result, varasto.otaVarastosta(-1D), vertailuTarkkuus);
+    }
+
+    @Test
+    public void viedaanKaikki() {
+        final double result = 7.5345D;
+        final double tryTake = 123D;
+        varasto.lisaaVarastoon(result);
+        final double ahneOtto = varasto.otaVarastosta(tryTake);
+        assertEquals(result, ahneOtto, vertailuTarkkuus);
     }
 }
