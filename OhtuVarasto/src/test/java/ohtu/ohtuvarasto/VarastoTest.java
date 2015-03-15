@@ -115,4 +115,9 @@ public class VarastoTest {
         final double ahneOtto = varasto.otaVarastosta(tryTake);
         assertEquals(result, ahneOtto, vertailuTarkkuus);
     }
+
+    @Test
+    public void failer() {
+        fail(":(");
+    }
 }
